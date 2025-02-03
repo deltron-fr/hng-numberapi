@@ -20,22 +20,26 @@ def is_perfect(number):
     return divisors_sum == number
 
 def get_properties(number):
-    power = len(str(number))
-    sum_of_digits = 0
-    if number >= 0:
-        for i in str(number):
-            if i != ".":
-                sum_of_digits += int(i)**power
-        if sum_of_digits == number and (number % 2 == 0):
-            return ["armstrong", "even"]
-        elif sum_of_digits == number and (number % 2 != 0):
-            return ["armstrong", "odd"]
-        elif sum_of_digits != number and (number % 2 == 0):
-            return ["even"]
-        else:
-            return ["odd"]
-    else:
+    if number < 0:
         return ["even"] if number % 2 == 0 else ["odd"]
+
+    number = int(number)  
+    digits = [int(digit) for digit in str(abs(number))]  
+    power = len(digits)  
+    armstrong_sum = sum(digit ** power for digit in digits)
+
+    is_armstrong = armstrong_sum == number
+    is_even = number % 2 == 0
+
+    if is_armstrong and is_even:
+        return ["armstrong", "even"]
+    elif is_armstrong and not is_even:
+        return ["armstrong", "odd"]
+    elif not is_armstrong and is_even:
+        return ["even"]
+    else:
+        return ["odd"]
+    
 
 def digit_sum(number):
     return sum(int(digit) for digit in str(abs(int(number))))
